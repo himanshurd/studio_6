@@ -4,8 +4,6 @@ void main() {
   runApp(const MyApp());
 }
 
-
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -41,7 +39,6 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
-
   final String title;
 
   @override
@@ -49,9 +46,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
-  Map<String,String> forecast = {
+  Map<String, String> forecast = {
     "name": "today",
     "temperature": "35",
     "shortForecast": "Snowy",
@@ -60,7 +55,6 @@ class _MyHomePageState extends State<MyHomePage> {
     "windDirection": "SE",
     "isDaytime": "true",
     "probabilityOfPercipitation": "100"
-
   };
 
   Map<String, String> location = {
@@ -71,12 +65,73 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Text(location["city"]!);
+    return Scaffold(
+      backgroundColor: Color.fromARGB(255, 115, 162, 255),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _buildCustomContainer(
+                children: [
+                  _buildText('Location',
+                      fontWeight: FontWeight.bold, fontSize: 20),
+                  const SizedBox(height: 10),
+                  _buildText('City: ${location["city"]}', fontSize: 18),
+                  _buildText('State: ${location["state"]}', fontSize: 18),
+                  _buildText('Zip: ${location["zip"]}', fontSize: 18),
+                ],
+              ),
+              const SizedBox(height: 16),
+              _buildCustomContainer(
+                children: [
+                  _buildText('Current Weather Forecast',
+                      fontWeight: FontWeight.bold, fontSize: 20),
+                  const SizedBox(height: 16),
+                  _buildText('Temperature: ${forecast["temperature"]}°F',
+                      fontSize: 18),
+                  _buildText(
+                      'Detailed Forecast: ${forecast["detailedForecast"]}',
+                      fontSize: 18),
+                  _buildText(
+                      'Wind Speed/Direction: ${forecast["windSpeed"]} mph ${forecast["windDirection"]}',
+                      fontSize: 18),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCustomContainer({required List<Widget> children}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.black, width: 1.0),
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: children,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildText(String text, {FontWeight? fontWeight, double? fontSize}) {
+    return Text(
+      text,
+      style: TextStyle(
+        fontWeight: fontWeight,
+        fontSize: fontSize,
+        color: Colors.black,
+      ),
+    );
   }
 }
